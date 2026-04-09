@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/health', (req, res) => {
-  res.json({ status: "okk", reload: true });
+  res.json({ status: "ok!!!", reload: true });
 });
 
 app.listen(port, "0.0.0.0", () => {
