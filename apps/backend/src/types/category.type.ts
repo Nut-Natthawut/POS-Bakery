@@ -1,3 +1,4 @@
+//หน้าตาข้อมูลใน DB
 export interface Category {
     id:string;
     name:string;

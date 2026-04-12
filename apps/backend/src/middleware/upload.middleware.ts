@@ -1,6 +1,6 @@
 import multer from "multer";
 const storage = multer.memoryStorage();
-
+//upload product image 
 export const uploadProductImage = multer({
     storage,
     limits:{

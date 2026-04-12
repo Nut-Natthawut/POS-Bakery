@@ -5,7 +5,7 @@ import { uploadProductImage } from "../middleware/upload.middleware";
 import type { UpdateProductInput } from "../types/product.type";
 
 const productRouter = Router();
-
+//convert string to number api
 const toNumber = (value: unknown) => {
     if(value === undefined || value === null || value === "") {
         return undefined
@@ -13,6 +13,7 @@ const toNumber = (value: unknown) => {
     return Number(value)
 }
 
+//get all products api
 productRouter.get("/", checkAuth, async (_req,res) => {
     try{
         const products = await getProducts();
@@ -27,6 +28,7 @@ productRouter.get("/", checkAuth, async (_req,res) => {
     }
 })
 
+//create product api
 productRouter.post("/",checkAuth,checkAdmin,
   uploadProductImage.single("image"),
   async (req, res) => {
@@ -78,6 +80,7 @@ productRouter.post("/",checkAuth,checkAdmin,
   }
 );
 
+//update product api
 productRouter.put("/:id",checkAuth,checkAdmin,
   uploadProductImage.single("image"),
   async (req, res) => {
@@ -89,6 +92,7 @@ productRouter.put("/:id",checkAuth,checkAdmin,
 
       const updatePayload: UpdateProductInput = {};
 
+      // if not undefined, --> update
 if (req.body.category_id !== undefined) {
   updatePayload.category_id = req.body.category_id;
 }
@@ -131,6 +135,7 @@ if (imageUrl) {
   }
 );
 
+//delete product api
 productRouter.delete("/:id", checkAuth, checkAdmin, async (req, res) => {
   try {
     const { id } = req.params;
