@@ -1,3 +1,4 @@
+//หน้าตาข้อมูลใน DB
 export interface Product {
   id: string;
   category_id: string;

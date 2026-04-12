@@ -5,6 +5,7 @@ import { createCategory, deleteCategory, getCategories, updateCategory } from ".
 
 const categoryRouter = Router();
 
+//get all categories api
 categoryRouter.get("/" , checkAuth , async (_req,res) => {
     try{
         const categories = await getCategories();
@@ -20,6 +21,7 @@ categoryRouter.get("/" , checkAuth , async (_req,res) => {
     }
 });
 
+//create category api
 categoryRouter.post("/", checkAuth,checkAdmin , async (req,res) => {
     try{
         const { name } = req.body;
@@ -40,6 +42,7 @@ categoryRouter.post("/", checkAuth,checkAdmin , async (req,res) => {
     }
 })
 
+//update category api
 categoryRouter.put("/:id", checkAuth,checkAdmin , async (req,res) => {
     try{
         const { id } = req.params;
@@ -61,6 +64,7 @@ categoryRouter.put("/:id", checkAuth,checkAdmin , async (req,res) => {
     }
 });
 
+//delete category api
 categoryRouter.delete("/:id", checkAuth , checkAdmin, async (req,res) => {
     try{
         const { id } = req.params;

@@ -6,6 +6,7 @@ import type {
   UpdateProductInput
 } from "../types/product.type";
 
+//หน้าตาข้อมูลใน DB
 const productSelect = `
   id,
   category_id,
@@ -18,6 +19,7 @@ const productSelect = `
   created_at
 `;
 
+//get all products
 export const getProducts = async () => {
   const { data, error } = await supabase
     .from("products")
@@ -31,6 +33,7 @@ export const getProducts = async () => {
   return data as Product[];
 };
 
+//upload product image to storage
 export const uploadProductImageToStorage = async (file: Express.Multer.File) => {
   const fileExtension = file.originalname.split(".").pop();
   const fileName = `${randomUUID()}.${fileExtension}`;
@@ -54,6 +57,7 @@ export const uploadProductImageToStorage = async (file: Express.Multer.File) => 
   return data.publicUrl;
 };
 
+//create product
 export const createProduct = async (input: CreateProductInput) => {
   const { data, error } = await supabase
     .from("products")
@@ -76,6 +80,7 @@ export const createProduct = async (input: CreateProductInput) => {
   return data as Product;
 };
 
+//update product
 export const updateProduct = async (
   id: string,
   input: UpdateProductInput
@@ -94,6 +99,7 @@ export const updateProduct = async (
   return data as Product;
 };
 
+//delete product
 export const deleteProduct = async (id: string) => {
   const { error } = await supabase
     .from("products")

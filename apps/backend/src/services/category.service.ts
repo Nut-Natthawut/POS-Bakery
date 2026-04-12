@@ -5,6 +5,7 @@ import type {
 } from "../types/category.type";
 import { supabase } from "../lib/supabase";
 
+//get all categories
 export const getCategories = async () => {
     const { data , error } = await supabase
     .from("categories")
@@ -18,6 +19,7 @@ export const getCategories = async () => {
 
 }
 
+//create category
 export const createCategory = async (input: CreateCategoryInput) => {
     const { data, error } = await supabase
     .from("categories")
@@ -33,6 +35,7 @@ export const createCategory = async (input: CreateCategoryInput) => {
     return data as Category;
 }
 
+//update category
 export const updateCategory = async (
     id:string,
     input: UpdateCategoryInput
@@ -53,6 +56,7 @@ export const updateCategory = async (
 
 }
 
+//delete category
 export const deleteCategory = async (id:string) => {
     const { error } = await supabase
     .from("categories")
