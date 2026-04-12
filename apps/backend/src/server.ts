@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRouter from './routes/auth.route';
 import { checkAdmin, checkAuth } from './middleware/auth.middleware';
 import categoryRouter from './routes/category.route';
+import productRouter from './routes/product.route';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.get("/health", (_req, res) => {
 // เรียกใช้ authRouter จาก routes/auth.route.ts
 app.use(authRouter)
 app.use("/categories",categoryRouter)
+app.use("/products",productRouter)
 
 // เช็คว่า login แล้ว
 app.get("/profile", checkAuth, (req,res) => {
