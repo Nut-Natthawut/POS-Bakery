@@ -7,28 +7,11 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
+    env_file:
+      - ./apps/backend/.env.docker
     environment:
       PORT: 3000
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/pos_bakery
     volumes:
       - ./apps/backend:/app
       - /app/node_modules
-    depends_on:
-      - db
     command: npm run dev
-
-  db:
-    image: postgres:16-alpine
-    container_name: pos-bakery-db
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: pos_bakery
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
