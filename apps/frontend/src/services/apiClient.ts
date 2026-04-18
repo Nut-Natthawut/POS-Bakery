@@ -8,10 +8,13 @@ export const apiClient = async <T>(
   // ดึง token ที่ได้จากหน้า Login เพื่อใช้กับ API ที่ต้อง login
   const token = localStorage.getItem("accessToken")
 
+  const isFormData = options.body instanceof FormData
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      // FormData ต้องให้ browser ตั้ง Content-Type เอง เพื่อใส่ boundary ให้ถูก
+      ...(!isFormData ? { "Content-Type": "application/json" } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
