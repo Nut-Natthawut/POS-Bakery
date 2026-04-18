@@ -10,12 +10,17 @@ export type Product = {
   created_at: string
 }
 
-export type ProductsResponse = {
+export type GetProductsResponse = {
   message: string
   data: Product[]
 }
 
-export type ProductResponse = {
+export type CreateProductResponse = {
+  message: string
+  data: Product
+}
+
+export type UpdateProductResponse = {
   message: string
   data: Product
 }
