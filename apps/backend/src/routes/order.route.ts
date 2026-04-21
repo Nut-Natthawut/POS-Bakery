@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { checkAuth } from "../middleware/auth.middleware";
 import { createOrder } from "../services/order.service";
+import { getReceiptByOrderId } from "../services/receipt.service";
 
 const orderRouter = Router();
 
@@ -35,6 +36,28 @@ orderRouter.post("/", checkAuth, async (req, res) => {
       message.includes("Product not found")
         ? 400
         : 500;
+
+    return res.status(statusCode).json({
+      message
+    });
+  }
+});
+
+// ดึงข้อมูลใบเสร็จจาก order_id
+orderRouter.get("/:id/receipt", checkAuth, async (req, res) => {
+  try {
+    const receipt = await getReceiptByOrderId(req.params.id as string);
+
+    return res.status(200).json({
+      message: "Receipt fetched successfully",
+      data: receipt
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to fetch receipt";
+
+    const statusCode =
+      message.includes("not found") ? 404 : 500;
 
     return res.status(statusCode).json({
       message
