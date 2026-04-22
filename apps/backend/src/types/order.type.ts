@@ -40,3 +40,16 @@ export interface OrderItem {
   vat_at_sale: number;
   created_at: string;
 }
+
+// ข้อมูลสรุปแต่ละบิลสำหรับหน้า history
+export interface OrderHistoryItem {
+  order_id: string;
+  seller_name: string;
+  grand_total: number;
+  total_vat: number;
+  total_discount: number;
+  created_at: string;
+  item_count: number;
+  total_quantity: number;
+}
+
