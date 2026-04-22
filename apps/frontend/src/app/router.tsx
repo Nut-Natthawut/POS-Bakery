@@ -6,17 +6,21 @@ import { LoginPage } from "../pages/LoginPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { CategoriesPage } from "../pages/CategoriesPage";
 import { OrderHistoryPage } from "../pages/OrderHistoryPage";
+import { AppLayout } from "../layouts/AppLayout";
 
 export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route index element={<Navigate to="/login" replace />} />
+
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <DashboardPage />
+            <AppLayout>
+              <DashboardPage />
+            </AppLayout>
           </ProtectedRoute>
         }
       />
