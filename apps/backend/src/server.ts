@@ -6,6 +6,7 @@ import { checkAdmin, checkAuth } from './middleware/auth.middleware';
 import categoryRouter from './routes/category.route';
 import productRouter from './routes/product.route';
 import orderRouter from './routes/order.route';
+import dashboardRouter from './routes/dashboard.route';
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ app.use(authRouter)
 app.use("/categories",categoryRouter)
 app.use("/products",productRouter)
 app.use("/orders",orderRouter)
-
+app.use("/dashboard",dashboardRouter)
 // เช็คว่า login แล้ว
 app.get("/profile", checkAuth, (req,res) => {
   return res.status(200).json({
