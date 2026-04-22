@@ -5,6 +5,7 @@ import { SalesPage } from "../pages/SalesPage";
 import { LoginPage } from "../pages/LoginPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { CategoriesPage } from "../pages/CategoriesPage";
+import { OrderHistoryPage } from "../pages/OrderHistoryPage";
 
 export const AppRouter = () => {
   return (
@@ -46,6 +47,16 @@ export const AppRouter = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/orders/history"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN", "STAFF"]}>
+            <OrderHistoryPage />
+          </ProtectedRoute>
+        }
+      />
+
     </Routes>
   );
 };
