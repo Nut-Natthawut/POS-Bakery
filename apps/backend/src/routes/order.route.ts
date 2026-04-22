@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { checkAuth } from "../middleware/auth.middleware";
-import { createOrder } from "../services/order.service";
+import { createOrder, getOrderHistory } from "../services/order.service";
 import { getReceiptByOrderId } from "../services/receipt.service";
+
 
 const orderRouter = Router();
 
@@ -43,6 +44,31 @@ orderRouter.post("/", checkAuth, async (req, res) => {
   }
 });
 
+// ดึงประวัติ order ย้อนหลัง
+orderRouter.get("/history", checkAuth, async (req, res) => {
+  try {
+    const startDate =
+      typeof req.query.startDate === "string" ? req.query.startDate : undefined;
+
+    const endDate =
+      typeof req.query.endDate === "string" ? req.query.endDate : undefined;
+
+    const orders = await getOrderHistory(req.user!, startDate, endDate);
+
+    return res.status(200).json({
+      message: "Order history fetched successfully",
+      data: orders
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to fetch order history";
+
+    return res.status(500).json({
+      message
+    });
+  }
+});
+
 // ดึงข้อมูลใบเสร็จจาก order_id
 orderRouter.get("/:id/receipt", checkAuth, async (req, res) => {
   try {
@@ -55,8 +81,8 @@ orderRouter.get("/:id/receipt", checkAuth, async (req, res) => {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to fetch receipt";
-
-    const statusCode =
+      
+      const statusCode =
       message.includes("not found") ? 404 : 500;
 
     return res.status(statusCode).json({
@@ -64,5 +90,7 @@ orderRouter.get("/:id/receipt", checkAuth, async (req, res) => {
     });
   }
 });
+
+
 
 export default orderRouter;
