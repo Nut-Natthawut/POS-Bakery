@@ -29,7 +29,9 @@ export const AppRouter = () => {
         path="/products"
         element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <ProductsPage />
+            <AppLayout>
+              <ProductsPage />
+            </AppLayout>
           </ProtectedRoute>
         }
       />
@@ -38,7 +40,9 @@ export const AppRouter = () => {
         path="/sales"
         element={
           <ProtectedRoute allowedRoles={["ADMIN", "STAFF"]}>
-            <SalesPage />
+            <AppLayout>
+              <SalesPage />
+            </AppLayout>
           </ProtectedRoute>
         }
       />
@@ -47,7 +51,9 @@ export const AppRouter = () => {
         path="/categories"
         element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <CategoriesPage />
+            <AppLayout>
+              <CategoriesPage />
+            </AppLayout>
           </ProtectedRoute>
         }
       />
@@ -56,7 +62,9 @@ export const AppRouter = () => {
         path="/orders/history"
         element={
           <ProtectedRoute allowedRoles={["ADMIN", "STAFF"]}>
-            <OrderHistoryPage />
+            <AppLayout>
+              <OrderHistoryPage />
+            </AppLayout>
           </ProtectedRoute>
         }
       />
