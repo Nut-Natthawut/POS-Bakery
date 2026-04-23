@@ -1,33 +1,46 @@
 const API_BASE_URL = "http://localhost:3000"
 
-//fetch กลาง ตั้ง base URL, headers, error handling
+// fetch กลาง ตั้ง base URL, headers, error handling
 export const apiClient = async <T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> => {
   // ดึง token ที่ได้จากหน้า Login เพื่อใช้กับ API ที่ต้อง login
   const token = localStorage.getItem("accessToken")
-
   const isFormData = options.body instanceof FormData
+  let loadingTimer: number | undefined
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      // FormData ต้องให้ browser ตั้ง Content-Type เอง เพื่อใส่ boundary ให้ถูก
-      ...(!isFormData ? { "Content-Type": "application/json" } : {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  })
+  // ถ้า request นานเกิน 2 วิ ค่อยโชว์ loading screen
+  loadingTimer = window.setTimeout(() => {
+    window.dispatchEvent(new CustomEvent("api-loading-start"))
+  }, 2000)
 
-  // อ่าน response JSON จาก backend
-  const data = await response.json()
+  try {
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers: {
+        // FormData ต้องให้ browser ตั้ง Content-Type เอง เพื่อใส่ boundary ให้ถูก
+        ...(!isFormData ? { "Content-Type": "application/json" } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    })
 
-  // ถ้า request ไม่สำเร็จ ให้โยน message จาก backend ไปที่ catch UI
-  if (!response.ok) {
-    throw new Error(data.message || "Request failed")
+    // อ่าน response JSON จาก backend
+    const data = await response.json()
+
+    // ถ้า request ไม่สำเร็จ ให้โยน message จาก backend ไปที่ catch UI
+    if (!response.ok) {
+      throw new Error(data.message || "Request failed")
+    }
+
+    // ถ้าสำเร็จ ส่ง response data กลับไปใช้งาน service/page
+    return data as T
+  } finally {
+    if (loadingTimer) {
+      window.clearTimeout(loadingTimer)
+    }
+
+    window.dispatchEvent(new CustomEvent("api-loading-end"))
   }
-
-  // ถ้าสำเร็จ ส่ง response data กลับไปใช้งาน service/page
-  return data as T
 }
