@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import { getDashboardSummary } from "../services/dashboardApi"
 import type { DashboardSummary } from "../types/dashboard"
+import { DataTableShell } from "../components/ui/DataTableShell"
+import { StatCard } from "../components/ui/StatCard"
+
 
 export const DashboardPage = () => {
   const [summary, setSummary] = useState<DashboardSummary | null>(null)
@@ -51,26 +54,23 @@ export const DashboardPage = () => {
       {summary ? (
         <>
           <div className="grid gap-4 md:grid-cols-2">
-            <article className="rounded-md border p-5">
-              <p className="text-sm text-black/50">Revenue (This Month)</p>
-              <h2 className="mt-2 text-3xl font-semibold">
-                {summary.revenue.toFixed(2)}
-              </h2>
-            </article>
+             <StatCard
+              label="Revenue (This Month)"
+              value={summary.revenue.toFixed(2)}
+              helperText="ยอดขายรวมของเดือนปัจจุบัน"
+            />
 
-            <article className="rounded-md border p-5">
-              <p className="text-sm text-black/50">Total VAT (This Month)</p>
-              <h2 className="mt-2 text-3xl font-semibold">
-                {summary.total_vat.toFixed(2)}
-              </h2>
-            </article>
+            <StatCard
+              label="Total VAT (This Month)"
+              value={summary.total_vat.toFixed(2)}
+              helperText="ยอดภาษีที่เก็บได้จากการขาย"
+            />
           </div>
 
-          <section className="space-y-3 rounded-md border p-5">
-            <div>
-              <p className="text-sm text-black/50">Best Sellers</p>
-              <h2 className="text-xl font-semibold">Top 5 Products</h2>
-            </div>
+           <DataTableShell
+            title="Top 5 Best Sellers"
+            description="เรียงตามจำนวนสินค้าที่ขายได้มากที่สุดในเดือนนี้"
+          >
 
             {summary.best_sellers.length === 0 ? (
               <p className="text-sm text-black/60">No sales data this month</p>
@@ -97,7 +97,7 @@ export const DashboardPage = () => {
                 </table>
               </div>
             )}
-          </section>
+          </DataTableShell>
         </>
       ) : null}
     </section>

@@ -208,7 +208,7 @@ export const SalesPage = () => {
             </p>
           ) : null}
 
-          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+          <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
             <section className="space-y-4">
               <h2 className="text-xl font-semibold">Products</h2>
 
@@ -216,7 +216,7 @@ export const SalesPage = () => {
                 <p className="text-sm text-black/60">Loading products...</p>
               ) : null}
 
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
                 {products.map((product) => (
                   <article
                     key={product.id}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { DataTableShell } from "../components/ui/DataTableShell"
 import {
   createCategory,
   deleteCategory,
@@ -140,7 +141,7 @@ export const CategoriesPage = () => {
         </div>
 
         {error ? (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
             {error}
           </p>
         ) : null}
@@ -148,18 +149,23 @@ export const CategoriesPage = () => {
         {isFormOpen ? (
           <form
             onSubmit={handleSubmit}
-            className="space-y-4 rounded-md border p-4"
+            className="space-y-4 rounded-md border border-black/10 bg-white p-5 shadow-sm"
           >
             <h2 className="text-lg font-semibold">
               {editingCategory ? "Edit Category" : "Add Category"}
             </h2>
 
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Category name"
-              className="w-full rounded-md border px-3 py-2"
-            />
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-black/70">
+                Category Name
+              </label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Drink"
+                className="w-full rounded-md border border-black/10 px-3 py-2"
+              />
+            </div>
 
             <div className="flex gap-2">
               <button
@@ -182,45 +188,66 @@ export const CategoriesPage = () => {
         ) : null}
 
         {isLoading ? (
-          <p className="text-sm text-black/60">Loading categories...</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="py-2 pr-4">Name</th>
-                  <th className="py-2 pr-4">Created At</th>
-                  <th className="py-2 pr-4">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {categories.map((category) => (
-                  <tr key={category.id} className="border-b">
-                    <td className="py-2 pr-4 font-medium">{category.name}</td>
-                    <td className="py-2 pr-4">{category.created_at}</td>
-                    <td className="space-x-2 py-2 pr-4">
-                      <button
-                        type="button"
-                        onClick={() => openEditForm(category)}
-                        className="rounded-md border px-3 py-1 text-sm"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(category.id)}
-                        className="rounded-md border px-3 py-1 text-sm text-red-600"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-3">
+            <div className="h-16 animate-pulse rounded-md border bg-black/5" />
+            <div className="h-16 animate-pulse rounded-md border bg-black/5" />
+            <div className="h-16 animate-pulse rounded-md border bg-black/5" />
           </div>
+        ) : (
+          <DataTableShell
+            title="Category List"
+            description="จัดการหมวดหมู่ที่ใช้ในเมนูสินค้า"
+          >
+            {categories.length === 0 ? (
+              <div className="rounded-md border border-dashed px-4 py-8 text-center text-sm text-black/60">
+                ยังไม่มีหมวดหมู่สินค้าในระบบ
+              </div>
+            ) : (
+              <table className="min-w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="border-b bg-black/[0.03]">
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Name
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Created At
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {categories.map((category) => (
+                    <tr key={category.id} className="border-b last:border-b-0">
+                      <td className="px-4 py-3 font-medium">{category.name}</td>
+                      <td className="px-4 py-3">
+                        {new Date(category.created_at).toLocaleString()}
+                      </td>
+                      <td className="space-x-2 px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => openEditForm(category)}
+                          className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(category.id)}
+                          className="rounded-md border border-red-200 px-3 py-1 text-sm text-red-600 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </DataTableShell>
         )}
       </section>
     );
