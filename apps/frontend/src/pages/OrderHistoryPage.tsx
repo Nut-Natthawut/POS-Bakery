@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { ReceiptModal } from "../components/ReceiptModal"
+import { DataTableShell } from "../components/ui/DataTableShell"
 import { getOrderHistory } from "../services/orderHistoryApi"
 import { getReceipt } from "../services/receiptApi"
 import type { OrderHistoryItem } from "../types/orderHistory"
@@ -80,32 +81,36 @@ export const OrderHistoryPage = () => {
           </div>
 
           {error ? (
-            <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">
+            <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </p>
           ) : null}
 
           <form
             onSubmit={handleFilter}
-            className="grid gap-3 rounded-md border p-4 md:grid-cols-[1fr_1fr_auto_auto]"
+            className="grid gap-3 rounded-md border border-black/10 bg-white p-4 shadow-sm md:grid-cols-[1fr_1fr_auto_auto]"
           >
             <div>
-              <label className="text-sm font-medium">Start Date</label>
+              <label className="text-sm font-medium text-black/70">
+                Start Date
+              </label>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="mt-1 w-full rounded-md border px-3 py-2"
+                className="mt-1 w-full rounded-md border border-black/10 px-3 py-2"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">End Date</label>
+              <label className="text-sm font-medium text-black/70">
+                End Date
+              </label>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="mt-1 w-full rounded-md border px-3 py-2"
+                className="mt-1 w-full rounded-md border border-black/10 px-3 py-2"
               />
             </div>
 
@@ -126,35 +131,66 @@ export const OrderHistoryPage = () => {
           </form>
 
           {isLoading ? (
-            <p className="text-sm text-black/60">Loading order history...</p>
-          ) : null}
-
-          {!isLoading && orders.length === 0 ? (
-            <div className="rounded-md border p-6 text-sm text-black/60">
-              No order history found
+            <div className="space-y-3">
+              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
+              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
+              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
             </div>
           ) : null}
 
+          {!isLoading && orders.length === 0 ? (
+            <DataTableShell
+              title="Order History"
+              description="ประวัติการขายย้อนหลังตามช่วงวันที่ที่เลือก"
+            >
+              <div className="rounded-md border border-dashed px-4 py-8 text-center text-sm text-black/60">
+                ไม่พบประวัติการขายตามเงื่อนไขที่ค้นหา
+              </div>
+            </DataTableShell>
+          ) : null}
+
           {orders.length > 0 ? (
-            <div className="overflow-x-auto rounded-md border">
+            <DataTableShell
+              title="Order History"
+              description="ดูรายการบิลย้อนหลังและกดดูใบเสร็จทีละบิลได้"
+            >
               <table className="min-w-full border-collapse text-sm">
                 <thead className="bg-black/5 text-left">
                   <tr>
-                    <th className="px-4 py-3">Order ID</th>
-                    <th className="px-4 py-3">Seller</th>
-                    <th className="px-4 py-3">Items</th>
-                    <th className="px-4 py-3">Discount</th>
-                    <th className="px-4 py-3">VAT</th>
-                    <th className="px-4 py-3">Grand Total</th>
-                    <th className="px-4 py-3">Created At</th>
-                    <th className="px-4 py-3">Actions</th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Order ID
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Seller
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Items
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Discount
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      VAT
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Grand Total
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Created At
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {orders.map((order) => (
-                    <tr key={order.order_id} className="border-t">
-                      <td className="px-4 py-3">{order.order_id}</td>
+                    <tr
+                      key={order.order_id}
+                      className="border-t last:border-b-0"
+                    >
+                      <td className="px-4 py-3 font-medium">{order.order_id}</td>
                       <td className="px-4 py-3">{order.seller_name}</td>
                       <td className="px-4 py-3">{order.item_count}</td>
                       <td className="px-4 py-3">
@@ -174,7 +210,7 @@ export const OrderHistoryPage = () => {
                           type="button"
                           onClick={() => handleViewReceipt(order.order_id)}
                           disabled={isReceiptLoading}
-                          className="rounded-md border px-3 py-1"
+                          className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
                         >
                           View Receipt
                         </button>
@@ -183,7 +219,7 @@ export const OrderHistoryPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </DataTableShell>
           ) : null}
         </section>
       </main>
