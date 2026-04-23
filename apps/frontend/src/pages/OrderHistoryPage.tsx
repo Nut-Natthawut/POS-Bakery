@@ -88,7 +88,7 @@ export const OrderHistoryPage = () => {
 
           <form
             onSubmit={handleFilter}
-            className="grid gap-3 rounded-md border border-black/10 bg-white p-4 shadow-sm md:grid-cols-[1fr_1fr_auto_auto]"
+            className="grid gap-3 rounded-md border border-black/10 bg-white p-4 shadow-sm xl:grid-cols-[1fr_1fr_auto_auto]"
           >
             <div>
               <label className="text-sm font-medium text-black/70">
@@ -166,10 +166,10 @@ export const OrderHistoryPage = () => {
                     <th className="px-4 py-3 font-medium text-black/65">
                       Items
                     </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
+                    <th className="hidden px-4 py-3 font-medium text-black/65 xl:table-cell">
                       Discount
                     </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
+                    <th className="hidden px-4 py-3 font-medium text-black/65 xl:table-cell">
                       VAT
                     </th>
                     <th className="px-4 py-3 font-medium text-black/65">
@@ -190,20 +190,22 @@ export const OrderHistoryPage = () => {
                       key={order.order_id}
                       className="border-t last:border-b-0"
                     >
-                      <td className="px-4 py-3 font-medium">{order.order_id}</td>
+                      <td className="max-w-[140px] break-words px-4 py-3 font-medium">
+                        {order.order_id}
+                      </td>
                       <td className="px-4 py-3">{order.seller_name}</td>
                       <td className="px-4 py-3">{order.item_count}</td>
-                      <td className="px-4 py-3">
+                      <td className="hidden px-4 py-3 xl:table-cell">
                         {order.total_discount.toFixed(2)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="hidden px-4 py-3 xl:table-cell">
                         {order.total_vat.toFixed(2)}
                       </td>
                       <td className="px-4 py-3">
                         {order.grand_total.toFixed(2)}
                       </td>
                       <td className="px-4 py-3">
-                        {new Date(order.created_at).toLocaleString()}
+                        {new Date(order.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-4 py-3">
                         <button

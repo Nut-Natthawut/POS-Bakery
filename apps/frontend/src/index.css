@@ -12,3 +12,37 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 6mm;
+  }
+
+  html,
+  body {
+    width: 80mm;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-receipt,
+  .print-receipt * {
+    visibility: visible;
+  }
+
+  .print-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 68mm;
+    margin: 0 auto;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

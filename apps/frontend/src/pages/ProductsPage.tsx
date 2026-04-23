@@ -172,7 +172,7 @@ export const ProductsPage = () => {
 
   return (
     <section className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-medium text-black/45">Menu Management</p>
           <h1 className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
@@ -187,7 +187,7 @@ export const ProductsPage = () => {
           <button
             type="button"
             onClick={openCreateForm}
-            className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white"
+            className="w-full rounded-md bg-black px-4 py-2 text-sm font-medium text-white md:w-auto"
           >
             Add Product
           </button>
