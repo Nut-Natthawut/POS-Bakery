@@ -120,7 +120,7 @@ export const CategoriesPage = () => {
 
     return (
       <section className="space-y-6">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-sm font-medium text-black/45">Menu Management</p>
             <h1 className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
@@ -134,7 +134,7 @@ export const CategoriesPage = () => {
           <button
             type="button"
             onClick={openCreateForm}
-            className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white"
+            className="w-full rounded-md bg-black px-4 py-2 text-sm font-medium text-white sm:w-auto"
           >
             Add Category
           </button>
@@ -203,7 +203,39 @@ export const CategoriesPage = () => {
                 ยังไม่มีหมวดหมู่สินค้าในระบบ
               </div>
             ) : (
-              <table className="min-w-full border-collapse text-left text-sm">
+            <>
+              <div className="grid gap-3 md:hidden">
+                {categories.map((category) => (
+                  <article
+                    key={category.id}
+                    className="rounded-md border border-black/10 p-4"
+                  >
+                    <p className="font-medium">{category.name}</p>
+                    <p className="mt-1 text-sm text-black/60">
+                      {new Date(category.created_at).toLocaleDateString()}
+                    </p>
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openEditForm(category)}
+                        className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(category.id)}
+                        className="rounded-md border border-red-200 px-3 py-1 text-sm text-red-600 hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <table className="hidden min-w-full border-collapse text-left text-sm md:table">
                 <thead>
                   <tr className="border-b bg-black/[0.03]">
                     <th className="px-4 py-3 font-medium text-black/65">
@@ -246,6 +278,7 @@ export const CategoriesPage = () => {
                   ))}
                 </tbody>
               </table>
+            </>
             )}
           </DataTableShell>
         )}

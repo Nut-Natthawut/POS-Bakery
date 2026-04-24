@@ -45,8 +45,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#1d1d1f] md:grid md:grid-cols-[220px_1fr]">
-      <aside className="border-b px-4 py-4 md:min-h-screen md:border-b-0 md:border-r">
+    <div className="min-h-screen bg-white text-[#1d1d1f] xl:grid xl:grid-cols-[240px_minmax(0,1fr)]">
+      <aside className="border-b px-4 py-4 xl:min-h-screen xl:border-b-0 xl:border-r">
         <div>
           <p className="text-sm text-black/45">POS Bakery</p>
           <h1 className="text-lg font-semibold">Back Office</h1>
@@ -55,13 +55,13 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           </p>
         </div>
 
-        <nav className="mt-6 flex flex-wrap gap-2 md:flex-col">
+        <nav className="mt-6 flex gap-2 overflow-x-auto pb-1 xl:flex-col xl:overflow-visible xl:pb-0">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `rounded-md px-3 py-2 text-sm ${
+                `shrink-0 rounded-md px-3 py-2 text-sm ${
                   isActive
                     ? "bg-black text-white"
                     : "border text-black/75 hover:bg-black/5"
@@ -76,14 +76,14 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-6 rounded-md border px-3 py-2 text-sm"
+          className="mt-4 rounded-md border px-3 py-2 text-sm xl:mt-6"
         >
           Logout
         </button>
       </aside>
 
-      <main className="px-4 py-6">
-        <section className="mx-auto max-w-7xl">{children}</section>
+      <main className="min-w-0 px-4 py-6 md:px-5 xl:px-6">
+        <section className="mx-auto min-w-0 max-w-7xl">{children}</section>
       </main>
     </div>
   )
