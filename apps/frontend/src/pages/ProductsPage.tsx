@@ -172,7 +172,7 @@ export const ProductsPage = () => {
 
   return (
     <section className="space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-sm font-medium text-black/45">Menu Management</p>
           <h1 className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
@@ -357,67 +357,114 @@ export const ProductsPage = () => {
               ยังไม่มีสินค้าในระบบ
             </div>
           ) : (
-            <table className="min-w-full border-collapse text-left text-sm">
-              <thead>
-                <tr className="border-b bg-black/[0.03]">
-                  <th className="px-4 py-3 font-medium text-black/65">Image</th>
-                  <th className="px-4 py-3 font-medium text-black/65">Name</th>
-                  <th className="px-4 py-3 font-medium text-black/65">
-                    Category
-                  </th>
-                  <th className="px-4 py-3 font-medium text-black/65">Price</th>
-                  <th className="px-4 py-3 font-medium text-black/65">Stock</th>
-                  <th className="px-4 py-3 font-medium text-black/65">VAT</th>
-                  <th className="px-4 py-3 font-medium text-black/65">
-                    Discount
-                  </th>
-                  {isAdmin ? (
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Actions
-                    </th>
-                  ) : null}
-                </tr>
-              </thead>
-
-              <tbody>
+            <>
+              <div className="grid gap-3 xl:hidden">
                 {products.map((product) => (
-                  <tr key={product.id} className="border-b last:border-b-0">
-                    <td className="px-4 py-3">
+                  <article
+                    key={product.id}
+                    className="rounded-md border border-black/10 p-4"
+                  >
+                    <div className="flex items-start gap-3">
                       {product.image_url ? (
                         <img
                           src={product.image_url}
                           alt={product.name}
-                          className="h-12 w-12 rounded-md object-cover"
+                          className="h-16 w-16 shrink-0 rounded-md object-cover"
                         />
                       ) : (
-                        <span className="text-black/40">No image</span>
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-black/5 text-xs text-black/40">
+                          No image
+                        </div>
                       )}
-                    </td>
-                    <td className="px-4 py-3 font-medium">{product.name}</td>
-                    <td className="px-4 py-3">
-                      {getCategoryName(product.category_id)}
-                    </td>
-                    <td className="px-4 py-3">{product.price}</td>
-                    <td className="px-4 py-3">{product.stock}</td>
-                    <td className="px-4 py-3">{product.vat_rate}</td>
-                    <td className="px-4 py-3">
-                      {product.discount_price ?? "-"}
-                    </td>
+
+                      <div className="min-w-0 flex-1">
+                        <h3 className="break-words font-medium">{product.name}</h3>
+                        <p className="mt-1 text-sm text-black/60">
+                          {getCategoryName(product.category_id)}
+                        </p>
+                        <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-black/75">
+                          <p>Price: {product.price}</p>
+                          <p>Stock: {product.stock}</p>
+                          <p>VAT: {product.vat_rate}</p>
+                          <p>Discount: {product.discount_price ?? "-"}</p>
+                        </div>
+                        {isAdmin ? (
+                          <button
+                            type="button"
+                            onClick={() => openEditForm(product)}
+                            className="mt-3 rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
+                          >
+                            Edit
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <table className="hidden min-w-[860px] border-collapse text-left text-sm xl:table">
+                <thead>
+                  <tr className="border-b bg-black/[0.03]">
+                    <th className="px-4 py-3 font-medium text-black/65">Image</th>
+                    <th className="px-4 py-3 font-medium text-black/65">Name</th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Category
+                    </th>
+                    <th className="px-4 py-3 font-medium text-black/65">Price</th>
+                    <th className="px-4 py-3 font-medium text-black/65">Stock</th>
+                    <th className="px-4 py-3 font-medium text-black/65">VAT</th>
+                    <th className="px-4 py-3 font-medium text-black/65">
+                      Discount
+                    </th>
                     {isAdmin ? (
-                      <td className="px-4 py-3">
-                        <button
-                          type="button"
-                          onClick={() => openEditForm(product)}
-                          className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
-                        >
-                          Edit
-                        </button>
-                      </td>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Actions
+                      </th>
                     ) : null}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product.id} className="border-b last:border-b-0">
+                      <td className="px-4 py-3">
+                        {product.image_url ? (
+                          <img
+                            src={product.image_url}
+                            alt={product.name}
+                            className="h-12 w-12 rounded-md object-cover"
+                          />
+                        ) : (
+                          <span className="text-black/40">No image</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 font-medium">{product.name}</td>
+                      <td className="px-4 py-3">
+                        {getCategoryName(product.category_id)}
+                      </td>
+                      <td className="px-4 py-3">{product.price}</td>
+                      <td className="px-4 py-3">{product.stock}</td>
+                      <td className="px-4 py-3">{product.vat_rate}</td>
+                      <td className="px-4 py-3">
+                        {product.discount_price ?? "-"}
+                      </td>
+                      {isAdmin ? (
+                        <td className="px-4 py-3">
+                          <button
+                            type="button"
+                            onClick={() => openEditForm(product)}
+                            className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      ) : null}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
           )}
         </DataTableShell>
       )}

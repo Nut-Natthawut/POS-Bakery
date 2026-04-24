@@ -154,73 +154,102 @@ export const OrderHistoryPage = () => {
               title="Order History"
               description="ดูรายการบิลย้อนหลังและกดดูใบเสร็จทีละบิลได้"
             >
-              <table className="min-w-full border-collapse text-sm">
-                <thead className="bg-black/5 text-left">
-                  <tr>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Order ID
-                    </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Seller
-                    </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Items
-                    </th>
-                    <th className="hidden px-4 py-3 font-medium text-black/65 xl:table-cell">
-                      Discount
-                    </th>
-                    <th className="hidden px-4 py-3 font-medium text-black/65 xl:table-cell">
-                      VAT
-                    </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Grand Total
-                    </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Created At
-                    </th>
-                    <th className="px-4 py-3 font-medium text-black/65">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
+              <>
+                <div className="grid gap-3 xl:hidden">
                   {orders.map((order) => (
-                    <tr
+                    <article
                       key={order.order_id}
-                      className="border-t last:border-b-0"
+                      className="rounded-md border border-black/10 p-4"
                     >
-                      <td className="max-w-[140px] break-words px-4 py-3 font-medium">
+                      <p className="break-words text-sm font-medium text-black/80">
                         {order.order_id}
-                      </td>
-                      <td className="px-4 py-3">{order.seller_name}</td>
-                      <td className="px-4 py-3">{order.item_count}</td>
-                      <td className="hidden px-4 py-3 xl:table-cell">
-                        {order.total_discount.toFixed(2)}
-                      </td>
-                      <td className="hidden px-4 py-3 xl:table-cell">
-                        {order.total_vat.toFixed(2)}
-                      </td>
-                      <td className="px-4 py-3">
-                        {order.grand_total.toFixed(2)}
-                      </td>
-                      <td className="px-4 py-3">
-                        {new Date(order.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="px-4 py-3">
-                        <button
-                          type="button"
-                          onClick={() => handleViewReceipt(order.order_id)}
-                          disabled={isReceiptLoading}
-                          className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
-                        >
-                          View Receipt
-                        </button>
-                      </td>
-                    </tr>
+                      </p>
+                      <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-black/70">
+                        <p>Seller: {order.seller_name}</p>
+                        <p>Items: {order.item_count}</p>
+                        <p>Total: {order.grand_total.toFixed(2)}</p>
+                        <p>Date: {new Date(order.created_at).toLocaleDateString()}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleViewReceipt(order.order_id)}
+                        disabled={isReceiptLoading}
+                        className="mt-3 rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
+                      >
+                        View Receipt
+                      </button>
+                    </article>
                   ))}
-                </tbody>
-              </table>
+                </div>
+
+                <table className="hidden min-w-[920px] border-collapse text-sm xl:table">
+                  <thead className="bg-black/5 text-left">
+                    <tr>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Order ID
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Seller
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Items
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Discount
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        VAT
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Grand Total
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Created At
+                      </th>
+                      <th className="px-4 py-3 font-medium text-black/65">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {orders.map((order) => (
+                      <tr
+                        key={order.order_id}
+                        className="border-t last:border-b-0"
+                      >
+                        <td className="max-w-[140px] break-words px-4 py-3 font-medium">
+                          {order.order_id}
+                        </td>
+                        <td className="px-4 py-3">{order.seller_name}</td>
+                        <td className="px-4 py-3">{order.item_count}</td>
+                        <td className="px-4 py-3">
+                          {order.total_discount.toFixed(2)}
+                        </td>
+                        <td className="px-4 py-3">
+                          {order.total_vat.toFixed(2)}
+                        </td>
+                        <td className="px-4 py-3">
+                          {order.grand_total.toFixed(2)}
+                        </td>
+                        <td className="px-4 py-3">
+                          {new Date(order.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-3">
+                          <button
+                            type="button"
+                            onClick={() => handleViewReceipt(order.order_id)}
+                            disabled={isReceiptLoading}
+                            className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
+                          >
+                            View Receipt
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             </DataTableShell>
           ) : null}
         </section>
