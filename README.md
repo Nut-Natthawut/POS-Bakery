@@ -41,13 +41,18 @@ Frontend (Vercel)
 ## Screenshots
 
 <p align="center">
-  <strong>Products Page</strong><br>
-  <img src="docs/screenshots/products-page.png" alt="Products Page" width="900" />
+  <strong>Dashboard</strong><br>
+  <img src="docs/screenshots/dashBoard.png" alt="Dashboard" width="900" />
 </p>
 
 <p align="center">
-  <strong>Sales and Checkout</strong><br>
-  <img src="docs/screenshots/sales-page.png" alt="Sales Page" width="900" />
+  <strong>Category Management</strong><br>
+  <img src="docs/screenshots/category.png" alt="Category Management" width="900" />
+</p>
+
+<p align="center">
+  <strong>Order History</strong><br>
+  <img src="docs/screenshots/orderHistory.png" alt="Order History" width="900" />
 </p>
 
 ## Main Features
@@ -64,11 +69,33 @@ Frontend (Vercel)
 
 ```txt
 apps/
-  frontend/   # React frontend
-  backend/    # Express backend
+  frontend/
+    src/
+      app/         # router and protected route
+      components/  # reusable UI components
+      layouts/     # shared app layout
+      pages/       # page screens
+      services/    # frontend API layer
+      types/       # frontend data types
+  backend/
+    src/
+      lib/         # shared utilities such as Supabase client
+      middleware/  # auth and upload middleware
+      routes/      # Express routes
+      services/    # business logic
+      types/       # backend types
 supabase/
   migrations/ # database schema and SQL
+docs/
+  screenshots/ # README images
 ```
+
+### Structure Notes
+
+- `apps/frontend` contains the React back-office UI
+- `apps/backend` contains the Express API and business logic
+- `supabase/migrations` contains schema and SQL functions used by the system
+- `docs/screenshots` stores images used in the README
 
 ## Deployment
 
@@ -81,10 +108,11 @@ supabase/
 This project uses JWT stored in localStorage for simplicity.
 For a more security-sensitive production system, httpOnly cookies would be a stronger approach.
 
-## Screenshots
+## Screenshot Notes
 
 - Add your screenshots to `docs/screenshots/`
 - Recommended files:
-  - `products-page.png`
-  - `sales-page.png`
+  - `dashBoard.png`
+  - `category.png`
+  - `orderHistory.png`
 - Recommended image size: same browser width and same viewport height for consistency
