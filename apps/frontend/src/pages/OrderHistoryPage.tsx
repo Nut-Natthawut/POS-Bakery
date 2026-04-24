@@ -68,17 +68,67 @@ export const OrderHistoryPage = () => {
     }
   }
 
+  const orderCountLabel = `${orders.length} bills`
+  const totalRevenueLabel = `${orders
+    .reduce((total, order) => total + order.grand_total, 0)
+    .toFixed(2)} total`
+  const latestDateLabel =
+    orders.length > 0
+      ? new Date(orders[0].created_at).toLocaleDateString()
+      : "No data"
+
   return (
     <>
-      <main className="px-4 py-6">
-        <section className="mx-auto max-w-7xl space-y-6">
-          <div>
-            <p className="text-sm text-black/60">Order Management</p>
-            <h1 className="text-3xl font-semibold">Order History</h1>
-            <p className="mt-1 text-sm text-black/60">
-              ดูประวัติการขายย้อนหลังและกดดูใบเสร็จได้
-            </p>
-          </div>
+      <section className="space-y-6">
+          <section className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
+            <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm font-medium text-black/45">Order Management</p>
+                  <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+                    Order History
+                  </h1>
+                </div>
+
+                <p className="max-w-3xl text-sm leading-6 text-black/55">
+                  ดูประวัติการขายย้อนหลัง กรองตามช่วงวันที่ และเปิดใบเสร็จของแต่ละบิลได้ทันที
+                </p>
+
+                <div className="grid gap-3 md:grid-cols-3">
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Bills
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{orderCountLabel}</p>
+                  </div>
+
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Revenue
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{totalRevenueLabel}</p>
+                  </div>
+
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Latest
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{latestDateLabel}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-md border border-black/10 bg-[#fafaf8] p-4">
+                <p className="text-sm font-medium text-black/50">History Filter</p>
+                <h2 className="mt-1 text-lg font-semibold text-[#1d1d1f]">
+                  เรียกดูบิลตามช่วงเวลาที่ต้องการ
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-black/55">
+                  ใช้ตัวกรองด้านล่างเพื่อลดจำนวนบิลที่ต้องไล่ดูและเปิดใบเสร็จย้อนหลังได้เร็วขึ้น
+                </p>
+              </div>
+            </div>
+          </section>
 
           {error ? (
             <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -182,31 +232,31 @@ export const OrderHistoryPage = () => {
                   ))}
                 </div>
 
-                <table className="hidden min-w-[920px] border-collapse text-sm xl:table">
+                <table className="hidden w-full table-fixed border-collapse text-sm xl:table">
                   <thead className="bg-black/5 text-left">
                     <tr>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-[190px] px-4 py-3 font-medium text-black/65">
                         Order ID
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-28 px-4 py-3 font-medium text-black/65">
                         Seller
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-24 px-4 py-3 font-medium text-black/65">
                         Items
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-28 px-4 py-3 font-medium text-black/65">
                         Discount
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-24 px-4 py-3 font-medium text-black/65">
                         VAT
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-32 px-4 py-3 font-medium text-black/65">
                         Grand Total
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-36 px-4 py-3 font-medium text-black/65">
                         Created At
                       </th>
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-40 px-4 py-3 font-medium text-black/65">
                         Actions
                       </th>
                     </tr>
@@ -218,7 +268,7 @@ export const OrderHistoryPage = () => {
                         key={order.order_id}
                         className="border-t last:border-b-0"
                       >
-                        <td className="max-w-[140px] break-words px-4 py-3 font-medium">
+                        <td className="break-words px-4 py-3 font-medium">
                           {order.order_id}
                         </td>
                         <td className="px-4 py-3">{order.seller_name}</td>
@@ -252,8 +302,7 @@ export const OrderHistoryPage = () => {
               </>
             </DataTableShell>
           ) : null}
-        </section>
-      </main>
+      </section>
 
       <ReceiptModal
         isOpen={isReceiptOpen}

@@ -143,6 +143,13 @@ export const SalesPage = () => {
     );
   }, [cartItems]);
 
+  const availableProductsLabel = `${products.length} menu items`;
+  const cartItemsLabel = `${cartItems.length} items in cart`;
+  const totalQuantityLabel = `${cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  )} qty`;
+
   // ส่ง product_id และ quantity ไป backend
   const handleCheckout = async () => {
     if (cartItems.length === 0) {
@@ -186,15 +193,65 @@ export const SalesPage = () => {
 
   return (
     <>
-      <main className="px-4 py-6">
-        <section className="mx-auto max-w-7xl space-y-6">
-          <div>
-            <p className="text-sm text-black/60">Sales Management</p>
-            <h1 className="text-3xl font-semibold">Sales</h1>
-            <p className="mt-1 text-sm text-black/60">
-              เลือกสินค้า เพิ่มลงตะกร้า และ checkout
-            </p>
-          </div>
+      <section className="space-y-6">
+          <section className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
+            <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm font-medium text-black/45">Sales Management</p>
+                  <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+                    Sales
+                  </h1>
+                </div>
+
+                <p className="max-w-3xl text-sm leading-6 text-black/55">
+                  เลือกสินค้า เพิ่มลงตะกร้า และ checkout เพื่อสร้างบิลขายพร้อมอัปเดตสต็อกล่าสุด
+                </p>
+
+                <div className="grid gap-3 md:grid-cols-3">
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Menu
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{availableProductsLabel}</p>
+                  </div>
+
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Cart
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{cartItemsLabel}</p>
+                  </div>
+
+                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                      Quantity
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">{totalQuantityLabel}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between gap-4 rounded-md border border-black/10 bg-[#fafaf8] p-4">
+                <div>
+                  <p className="text-sm font-medium text-black/50">Checkout Status</p>
+                  <h2 className="mt-1 text-lg font-semibold text-[#1d1d1f]">
+                    พร้อมขายและปิดบิลจากหน้าจอเดียว
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-black/55">
+                    สต็อกในรายการสินค้าจะอัปเดตตามข้อมูลล่าสุดจากระบบก่อน checkout ทุกครั้ง
+                  </p>
+                </div>
+
+                <div className="rounded-md border border-black/10 bg-white px-4 py-3">
+                  <p className="text-sm text-black/55">Grand Total</p>
+                  <p className="mt-1 text-2xl font-semibold">
+                    {cartSummary.grandTotal.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {error ? (
             <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -220,7 +277,7 @@ export const SalesPage = () => {
                 {products.map((product) => (
                   <article
                     key={product.id}
-                    className="rounded-md border p-4 space-y-3"
+                    className="rounded-md border border-black/10 bg-[#fcfcfb] p-4 shadow-sm space-y-3"
                   >
                     {product.image_url ? (
                       <img
@@ -235,7 +292,14 @@ export const SalesPage = () => {
                     )}
 
                     <div>
-                      <h3 className="font-medium">{product.name}</h3>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="font-medium">{product.name}</h3>
+                        {product.stock <= 5 ? (
+                          <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">
+                            Low stock
+                          </span>
+                        ) : null}
+                      </div>
                       <p className="text-sm text-black/60">
                         Stock: {product.stock}
                       </p>
@@ -260,7 +324,7 @@ export const SalesPage = () => {
               </div>
             </section>
 
-            <aside className="rounded-md border p-4 space-y-4 h-fit">
+            <aside className="rounded-md border border-black/10 bg-white p-4 shadow-sm space-y-4 h-fit">
               <h2 className="text-xl font-semibold">Cart</h2>
 
               {cartItems.length === 0 ? (
@@ -271,7 +335,7 @@ export const SalesPage = () => {
                 {cartItems.map((item) => (
                   <div
                     key={item.product_id}
-                    className="rounded-md border p-3 space-y-2"
+                    className="rounded-md border border-black/10 bg-black/[0.02] p-3 space-y-2"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -348,8 +412,7 @@ export const SalesPage = () => {
               </button>
             </aside>
           </div>
-        </section>
-      </main>
+      </section>
       <ReceiptModal
         isOpen={isReceiptOpen}
         receipt={receipt}

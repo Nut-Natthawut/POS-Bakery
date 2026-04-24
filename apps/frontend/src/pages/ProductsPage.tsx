@@ -71,6 +71,11 @@ export const ProductsPage = () => {
     return category?.name || "-"
   }
 
+  const lowStockProducts = products.filter((product) => product.stock <= 5)
+  const productCountLabel = `${products.length} items`
+  const categoryCountLabel = `${categories.length} groups`
+  const lowStockLabel = `${lowStockProducts.length} low stock`
+
   // ล้างค่าฟอร์มหลังบันทึกหรือกดยกเลิก
   const clearForm = () => {
     setName("")
@@ -172,27 +177,73 @@ export const ProductsPage = () => {
 
   return (
     <section className="space-y-6">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-        <div>
-          <p className="text-sm font-medium text-black/45">Menu Management</p>
-          <h1 className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
-            Products
-          </h1>
-          <p className="max-w-2xl text-sm leading-6 text-black/55">
-            จัดการเมนูสินค้า ราคา สต็อก ส่วนลด VAT และรูปภาพสินค้า
-          </p>
-        </div>
+      <section className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
+        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm font-medium text-black/45">Menu Management</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+                Products
+              </h1>
+            </div>
 
-        {isAdmin ? (
-          <button
-            type="button"
-            onClick={openCreateForm}
-            className="w-full rounded-md bg-black px-4 py-2 text-sm font-medium text-white md:w-auto"
-          >
-            Add Product
-          </button>
-        ) : null}
-      </div>
+            <p className="max-w-3xl text-sm leading-6 text-black/55">
+              จัดการเมนูสินค้า ราคา สต็อก ส่วนลด VAT และรูปภาพสินค้าให้พร้อมขายในหน้าร้าน
+            </p>
+
+            <div className="grid gap-3 md:grid-cols-3">
+              <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                  Products
+                </p>
+                <p className="mt-2 text-2xl font-semibold">{productCountLabel}</p>
+              </div>
+
+              <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                  Categories
+                </p>
+                <p className="mt-2 text-2xl font-semibold">{categoryCountLabel}</p>
+              </div>
+
+              <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
+                  Attention
+                </p>
+                <p className="mt-2 text-2xl font-semibold">{lowStockLabel}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between gap-4 rounded-md border border-black/10 bg-[#fafaf8] p-4">
+            <div>
+              <p className="text-sm font-medium text-black/50">
+                Product Control
+              </p>
+              <h2 className="mt-1 text-lg font-semibold text-[#1d1d1f]">
+                {isAdmin ? "จัดการสินค้าและอัปเดตราคาได้ทันที" : "ดูข้อมูลสินค้าปัจจุบัน"}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-black/55">
+                ตารางด้านล่างแสดงสถานะสินค้าปัจจุบันทั้งหมดของระบบพร้อมหมวดหมู่ สต็อก และส่วนลด
+              </p>
+            </div>
+
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={openCreateForm}
+                className="w-full rounded-md bg-black px-4 py-3 text-sm font-medium text-white"
+              >
+                Add Product
+              </button>
+            ) : (
+              <p className="rounded-md border border-black/10 bg-white px-3 py-3 text-sm text-black/60">
+                บัญชีนี้ดูรายการสินค้าได้อย่างเดียว
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
 
       {/* แสดง error จาก backend หรือการโหลดข้อมูล */}
       {error ? (
@@ -206,9 +257,20 @@ export const ProductsPage = () => {
           onSubmit={handleSubmit}
           className="space-y-5 rounded-md border border-black/10 bg-white p-5 shadow-sm"
         >
-          <h2 className="text-lg font-semibold">
-            {editingProduct ? "Edit Product" : "Add Product"}
-          </h2>
+          <div className="flex flex-col gap-2 xl:flex-row xl:items-end xl:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">
+                {editingProduct ? "Edit Product" : "Add Product"}
+              </h2>
+              <p className="text-sm text-black/55">
+                กรอกข้อมูลสินค้าให้ครบก่อนบันทึกเข้าระบบ
+              </p>
+            </div>
+
+            <div className="rounded-md border border-black/10 bg-black/[0.02] px-3 py-2 text-sm text-black/60">
+              รูปแบบนี้เหมาะกับ desktop และ tablet มากกว่า mobile
+            </div>
+          </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-1 md:col-span-2">
@@ -358,27 +420,36 @@ export const ProductsPage = () => {
             </div>
           ) : (
             <>
-              <div className="grid gap-3 xl:hidden">
+              <div className="grid gap-4 md:grid-cols-2 xl:hidden">
                 {products.map((product) => (
                   <article
                     key={product.id}
-                    className="rounded-md border border-black/10 p-4"
+                    className="rounded-md border border-black/10 bg-[#fcfcfb] p-4 shadow-sm"
                   >
                     <div className="flex items-start gap-3">
                       {product.image_url ? (
                         <img
                           src={product.image_url}
                           alt={product.name}
-                          className="h-16 w-16 shrink-0 rounded-md object-cover"
+                          className="h-20 w-20 shrink-0 rounded-md object-cover"
                         />
                       ) : (
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-black/5 text-xs text-black/40">
+                        <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-black/5 text-xs text-black/40">
                           No image
                         </div>
                       )}
 
                       <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-medium">{product.name}</h3>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="break-words text-base font-semibold">
+                            {product.name}
+                          </h3>
+                          {product.stock <= 5 ? (
+                            <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">
+                              Low stock
+                            </span>
+                          ) : null}
+                        </div>
                         <p className="mt-1 text-sm text-black/60">
                           {getCategoryName(product.category_id)}
                         </p>
@@ -392,7 +463,7 @@ export const ProductsPage = () => {
                           <button
                             type="button"
                             onClick={() => openEditForm(product)}
-                            className="mt-3 rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5"
+                            className="mt-4 rounded-md border border-black/15 px-3 py-2 text-sm hover:bg-black/5"
                           >
                             Edit
                           </button>
@@ -403,22 +474,22 @@ export const ProductsPage = () => {
                 ))}
               </div>
 
-              <table className="hidden min-w-[860px] border-collapse text-left text-sm xl:table">
+              <table className="hidden w-full table-fixed border-collapse text-left text-sm xl:table">
                 <thead>
                   <tr className="border-b bg-black/[0.03]">
-                    <th className="px-4 py-3 font-medium text-black/65">Image</th>
+                    <th className="w-24 px-4 py-3 font-medium text-black/65">Image</th>
                     <th className="px-4 py-3 font-medium text-black/65">Name</th>
                     <th className="px-4 py-3 font-medium text-black/65">
                       Category
                     </th>
-                    <th className="px-4 py-3 font-medium text-black/65">Price</th>
-                    <th className="px-4 py-3 font-medium text-black/65">Stock</th>
-                    <th className="px-4 py-3 font-medium text-black/65">VAT</th>
+                    <th className="w-28 px-4 py-3 font-medium text-black/65">Price</th>
+                    <th className="w-28 px-4 py-3 font-medium text-black/65">Stock</th>
+                    <th className="w-24 px-4 py-3 font-medium text-black/65">VAT</th>
                     <th className="px-4 py-3 font-medium text-black/65">
                       Discount
                     </th>
                     {isAdmin ? (
-                      <th className="px-4 py-3 font-medium text-black/65">
+                      <th className="w-32 px-4 py-3 font-medium text-black/65">
                         Actions
                       </th>
                     ) : null}
@@ -428,18 +499,27 @@ export const ProductsPage = () => {
                 <tbody>
                   {products.map((product) => (
                     <tr key={product.id} className="border-b last:border-b-0">
-                      <td className="px-4 py-3">
-                        {product.image_url ? (
-                          <img
-                            src={product.image_url}
-                            alt={product.name}
-                            className="h-12 w-12 rounded-md object-cover"
-                          />
-                        ) : (
-                          <span className="text-black/40">No image</span>
-                        )}
+                    <td className="px-4 py-3">
+                      {product.image_url ? (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="h-14 w-14 rounded-md object-cover"
+                        />
+                      ) : (
+                        <span className="text-black/40">No image</span>
+                      )}
+                    </td>
+                      <td className="px-4 py-3 font-medium">
+                        <div className="space-y-1">
+                          <p className="truncate">{product.name}</p>
+                          {product.stock <= 5 ? (
+                            <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">
+                              Low stock
+                            </span>
+                          ) : null}
+                        </div>
                       </td>
-                      <td className="px-4 py-3 font-medium">{product.name}</td>
                       <td className="px-4 py-3">
                         {getCategoryName(product.category_id)}
                       </td>
