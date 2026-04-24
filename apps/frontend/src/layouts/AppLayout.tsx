@@ -83,7 +83,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       </aside>
 
       <main className="min-w-0 px-4 py-6 md:px-5 xl:px-6">
-        <section className="mx-auto min-w-0 max-w-7xl">{children}</section>
+        <section className="min-w-0 w-full">{children}</section>
       </main>
     </div>
   )
