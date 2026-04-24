@@ -1,5 +1,14 @@
 # POS Bakery
 
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19" />
+  <img src="https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white" alt="TypeScript 6" />
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white" alt="Vite 8" />
+  <img src="https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white" alt="Express 5" />
+  <img src="https://img.shields.io/badge/Supabase-Postgres%20%26%20Storage-3ECF8E?logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/badge/Deploy-Vercel%20%2B%20Render-111111?logo=vercel&logoColor=white" alt="Deploy" />
+</p>
+
 A full-stack Point of Sale system for a bakery shop, built to simulate a real business workflow from product management to checkout and receipt generation.
 
 ## Overview
@@ -28,6 +37,18 @@ Frontend (Vercel)
 -> Backend API (Render)
 -> Supabase Postgres / Storage
 ```
+
+## Screenshots
+
+<p align="center">
+  <strong>Products Page</strong><br>
+  <img src="docs/screenshots/products-page.png" alt="Products Page" width="900" />
+</p>
+
+<p align="center">
+  <strong>Sales and Checkout</strong><br>
+  <img src="docs/screenshots/sales-page.png" alt="Sales Page" width="900" />
+</p>
 
 ## Main Features
 
@@ -62,9 +83,8 @@ For a more security-sensitive production system, httpOnly cookies would be a str
 
 ## Screenshots
 
-- Login
-- Products
-- Sales
-- Order History
-- Dashboard
-- Receipt
+- Add your screenshots to `docs/screenshots/`
+- Recommended files:
+  - `products-page.png`
+  - `sales-page.png`
+- Recommended image size: same browser width and same viewport height for consistency
