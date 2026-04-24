@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://localhost:3000"
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
 
 // fetch กลาง ตั้ง base URL, headers, error handling
 export const apiClient = async <T>(
@@ -8,10 +9,8 @@ export const apiClient = async <T>(
   // ดึง token ที่ได้จากหน้า Login เพื่อใช้กับ API ที่ต้อง login
   const token = localStorage.getItem("accessToken")
   const isFormData = options.body instanceof FormData
-  let loadingTimer: number | undefined
-
   // ถ้า request นานเกิน 2 วิ ค่อยโชว์ loading screen
-  loadingTimer = window.setTimeout(() => {
+  const loadingTimer = window.setTimeout(() => {
     window.dispatchEvent(new CustomEvent("api-loading-start"))
   }, 2000)
 
