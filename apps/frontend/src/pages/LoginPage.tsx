@@ -1,5 +1,15 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { login } from "../services/authApi"
 
 export const LoginPage = () => {
@@ -43,49 +53,58 @@ export const LoginPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-white px-4 py-10">
-      <section className="mx-auto max-w-sm">
-        <h1 className="text-2xl font-semibold">Login</h1>
-        <p className="mt-1 text-sm text-black/60">
-          เข้าสู่ระบบ POS Bakery
-        </p>
-
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label className="text-sm font-medium">Username</label>
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 w-full rounded-md border px-3 py-2"
-              placeholder="admin"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-md border px-3 py-2"
-              placeholder="password"
-            />
-          </div>
-          {/* แสดง error จาก validation หรือ backend */}
-          {error ? (
-            <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-              {error}
+    <main className="min-h-screen bg-[#f5f5f7] px-4 py-10">
+      <section className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-sm items-center">
+        <Card className="w-full rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+          <CardHeader className="gap-2 px-6 pt-6">
+            <p className="text-xs font-medium uppercase tracking-normal text-black/45">
+              POS Bakery
             </p>
-          ) : null}
+            <CardTitle className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
+              Login
+            </CardTitle>
+            <CardDescription className="text-sm leading-6 text-black/55">
+              เข้าสู่ระบบเพื่อจัดการสินค้า การขาย และภาพรวมของร้าน
+            </CardDescription>
+          </CardHeader>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full rounded-md bg-black px-4 py-2 text-white disabled:opacity-60"
-          >
-            {isLoading ? "กำลังเข้าสู่ระบบ..." : "Login"}
-          </button>
-        </form>
+          <CardContent className="px-6 pb-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin"
+                  autoComplete="username"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="password"
+                  autoComplete="current-password"
+                />
+              </div>
+
+              {error ? (
+                <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  {error}
+                </p>
+              ) : null}
+
+              <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+                {isLoading ? "กำลังเข้าสู่ระบบ..." : "Login"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </section>
     </main>
   )
