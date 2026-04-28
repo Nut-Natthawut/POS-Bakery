@@ -1,3 +1,5 @@
+import { Card, CardContent } from "@/components/ui/card"
+
 type StatCardProps = {
   label: string
   value: string
@@ -10,15 +12,17 @@ export const StatCard = ({
   helperText,
 }: StatCardProps) => {
   return (
-    <article className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
-      <p className="text-sm font-medium text-black/50">{label}</p>
-      <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#1d1d1f]">
-        {value}
-      </h2>
+    <Card className="rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+      <CardContent className="space-y-3 px-5 py-5">
+        <p className="text-sm font-medium text-black/50">{label}</p>
+        <h2 className="text-3xl font-semibold tracking-normal text-[#1d1d1f]">
+          {value}
+        </h2>
 
-      {helperText ? (
-        <p className="mt-2 text-sm text-black/55">{helperText}</p>
-      ) : null}
-    </article>
+        {helperText ? (
+          <p className="text-sm leading-6 text-black/55">{helperText}</p>
+        ) : null}
+      </CardContent>
+    </Card>
   )
 }

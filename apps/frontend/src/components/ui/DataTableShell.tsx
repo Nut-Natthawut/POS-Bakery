@@ -1,3 +1,5 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 type DataTableShellProps = {
   title: string
   description?: string
@@ -10,15 +12,17 @@ export const DataTableShell = ({
   children,
 }: DataTableShellProps) => {
   return (
-    <section className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-[#1d1d1f]">{title}</h2>
+    <Card className="rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+      <CardHeader className="gap-1 px-5 pt-5">
+        <CardTitle className="text-lg font-semibold tracking-normal text-[#1d1d1f]">
+          {title}
+        </CardTitle>
         {description ? (
-          <p className="mt-1 text-sm text-black/55">{description}</p>
+          <p className="text-sm leading-6 text-black/55">{description}</p>
         ) : null}
-      </div>
+      </CardHeader>
 
-      <div className="overflow-x-auto">{children}</div>
-    </section>
+      <CardContent className="px-5 pb-5">{children}</CardContent>
+    </Card>
   )
 }
