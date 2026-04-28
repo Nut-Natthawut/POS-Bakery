@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
 import type { AuthUser } from "../types/auth"
 
 type AppLayoutProps = {
@@ -45,12 +46,12 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#1d1d1f] xl:grid xl:grid-cols-[240px_minmax(0,1fr)]">
-      <aside className="border-b px-4 py-4 xl:min-h-screen xl:border-b-0 xl:border-r">
+    <div className="min-h-screen bg-background text-foreground xl:grid xl:grid-cols-[240px_minmax(0,1fr)]">
+      <aside className="border-b border-sidebar-border bg-sidebar/80 px-4 py-4 backdrop-blur-xl xl:min-h-screen xl:border-b-0 xl:border-r">
         <div>
-          <p className="text-sm text-black/45">POS Bakery</p>
+          <p className="text-sm text-muted-foreground">POS Bakery</p>
           <h1 className="text-lg font-semibold">Back Office</h1>
-          <p className="mt-1 text-sm text-black/55">
+          <p className="mt-1 text-sm text-muted-foreground">
             {authUser?.username} ({authUser?.role})
           </p>
         </div>
@@ -63,8 +64,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
               className={({ isActive }) =>
                 `shrink-0 rounded-md px-3 py-2 text-sm ${
                   isActive
-                    ? "bg-black text-white"
-                    : "border text-black/75 hover:bg-black/5"
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 }`
               }
             >
@@ -73,13 +74,14 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           ))}
         </nav>
 
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={handleLogout}
-          className="mt-4 rounded-md border px-3 py-2 text-sm xl:mt-6"
+          className="mt-4 xl:mt-6"
         >
           Logout
-        </button>
+        </Button>
       </aside>
 
       <main className="min-w-0 px-4 py-6 md:px-5 xl:px-6">

@@ -12,13 +12,13 @@ export const DataTableShell = ({
   children,
 }: DataTableShellProps) => {
   return (
-    <Card className="rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+    <Card className="border-border/80 bg-card/90 py-0 shadow-[0_18px_40px_rgba(91,58,35,0.07)] backdrop-blur-xl">
       <CardHeader className="gap-1 px-5 pt-5">
-        <CardTitle className="text-lg font-semibold tracking-normal text-[#1d1d1f]">
+        <CardTitle className="text-lg font-semibold tracking-normal text-foreground">
           {title}
         </CardTitle>
         {description ? (
-          <p className="text-sm leading-6 text-black/55">{description}</p>
+          <p className="text-sm leading-6 text-muted-foreground">{description}</p>
         ) : null}
       </CardHeader>
 

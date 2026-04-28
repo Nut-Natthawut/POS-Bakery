@@ -53,17 +53,17 @@ export const LoginPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f5f7] px-4 py-10">
+    <main className="min-h-screen bg-background px-4 py-10">
       <section className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-sm items-center">
-        <Card className="w-full rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+        <Card className="w-full border-border/80 bg-card/92 py-0 shadow-[0_20px_60px_rgba(91,58,35,0.1)] backdrop-blur-xl">
           <CardHeader className="gap-2 px-6 pt-6">
-            <p className="text-xs font-medium uppercase tracking-normal text-black/45">
+            <p className="text-xs font-medium uppercase tracking-normal text-muted-foreground">
               POS Bakery
             </p>
-            <CardTitle className="text-2xl font-semibold tracking-normal text-[#1d1d1f]">
+            <CardTitle className="text-2xl font-semibold tracking-normal text-foreground">
               Login
             </CardTitle>
-            <CardDescription className="text-sm leading-6 text-black/55">
+            <CardDescription className="text-sm leading-6 text-muted-foreground">
               เข้าสู่ระบบเพื่อจัดการสินค้า การขาย และภาพรวมของร้าน
             </CardDescription>
           </CardHeader>
