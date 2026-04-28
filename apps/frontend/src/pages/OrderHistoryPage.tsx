@@ -1,12 +1,32 @@
 import { useEffect, useState } from "react"
+import { AlertCircle, FileSearch, ReceiptText, RefreshCcw } from "lucide-react"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { ReceiptModal } from "../components/ReceiptModal"
 import { DataTableShell } from "../components/ui/DataTableShell"
+import { StatCard } from "../components/ui/StatCard"
 import { getOrderHistory } from "../services/orderHistoryApi"
 import { getReceipt } from "../services/receiptApi"
 import type { OrderHistoryItem } from "../types/orderHistory"
 import type { ReceiptData } from "../types/receipt"
 
 export const OrderHistoryPage = () => {
+  // state เก็บรายการสินค้า, หมวดหมู่, error และ loading
   const [orders, setOrders] = useState<OrderHistoryItem[]>([])
   const [receipt, setReceipt] = useState<ReceiptData | null>(null)
   const [isReceiptOpen, setIsReceiptOpen] = useState(false)
@@ -80,12 +100,13 @@ export const OrderHistoryPage = () => {
   return (
     <>
       <section className="space-y-6">
-          <section className="rounded-md border border-black/10 bg-white p-5 shadow-sm">
+        <Card className="rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+          <CardContent className="px-5 py-5">
             <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
               <div className="space-y-3">
                 <div>
                   <p className="text-sm font-medium text-black/45">Order Management</p>
-                  <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+                  <h1 className="text-3xl font-semibold tracking-normal text-[#1d1d1f]">
                     Order History
                   </h1>
                 </div>
@@ -95,122 +116,137 @@ export const OrderHistoryPage = () => {
                 </p>
 
                 <div className="grid gap-3 md:grid-cols-3">
-                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
-                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
-                      Bills
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold">{orderCountLabel}</p>
-                  </div>
-
-                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
-                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
-                      Revenue
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold">{totalRevenueLabel}</p>
-                  </div>
-
-                  <div className="rounded-md border border-black/10 bg-black/[0.02] p-4">
-                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/45">
-                      Latest
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold">{latestDateLabel}</p>
-                  </div>
+                  <StatCard
+                    label="Bills"
+                    value={orderCountLabel}
+                    helperText="จำนวนบิลในผลลัพธ์ปัจจุบัน"
+                  />
+                  <StatCard
+                    label="Revenue"
+                    value={totalRevenueLabel}
+                    helperText="ยอดรวมของบิลที่แสดงอยู่"
+                  />
+                  <StatCard
+                    label="Latest"
+                    value={latestDateLabel}
+                    helperText="วันที่ล่าสุดจากประวัติที่โหลดมา"
+                  />
                 </div>
               </div>
 
-              <div className="rounded-md border border-black/10 bg-[#fafaf8] p-4">
-                <p className="text-sm font-medium text-black/50">History Filter</p>
-                <h2 className="mt-1 text-lg font-semibold text-[#1d1d1f]">
-                  เรียกดูบิลตามช่วงเวลาที่ต้องการ
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-black/55">
-                  ใช้ตัวกรองด้านล่างเพื่อลดจำนวนบิลที่ต้องไล่ดูและเปิดใบเสร็จย้อนหลังได้เร็วขึ้น
-                </p>
-              </div>
+              <Card className="rounded-lg border border-black/8 bg-[#fafaf8] py-0 shadow-none">
+                <CardContent className="space-y-4 px-4 py-4">
+                  <div>
+                    <p className="text-sm font-medium text-black/50">History Filter</p>
+                    <h2 className="mt-1 text-lg font-semibold tracking-normal text-[#1d1d1f]">
+                      เรียกดูบิลตามช่วงเวลาที่ต้องการ
+                    </h2>
+                    <p className="mt-2 text-sm leading-6 text-black/55">
+                      ใช้ตัวกรองด้านล่างเพื่อลดจำนวนบิลที่ต้องไล่ดูและเปิดใบเสร็จย้อนหลังได้เร็วขึ้น
+                    </p>
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => loadOrderHistory(startDate, endDate)}
+                    disabled={isLoading}
+                    className="w-full"
+                  >
+                    <RefreshCcw className={isLoading ? "animate-spin" : ""} />
+                    Refresh History
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
-          </section>
+          </CardContent>
+        </Card>
 
-          {error ? (
-            <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </p>
-          ) : null}
+        {error ? (
+          <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700">
+            <AlertCircle className="size-4" />
+            <AlertTitle>Something went wrong</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        ) : null}
 
-          <form
-            onSubmit={handleFilter}
-            className="grid gap-3 rounded-md border border-black/10 bg-white p-4 shadow-sm xl:grid-cols-[1fr_1fr_auto_auto]"
+        <Card className="rounded-lg border border-black/8 bg-white/88 py-0 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+          <CardContent className="px-4 py-4">
+            <form
+              onSubmit={handleFilter}
+              className="grid gap-3 xl:grid-cols-[1fr_1fr_auto_auto]"
+            >
+              <div className="space-y-2">
+                <Label htmlFor="history-start-date">Start Date</Label>
+                <Input
+                  id="history-start-date"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="history-end-date">End Date</Label>
+                <Input
+                  id="history-end-date"
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+
+              <Button type="submit" size="lg" className="self-end">
+                <FileSearch />
+                Filter
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={handleResetFilter}
+                className="self-end"
+              >
+                Reset
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        {isLoading ? (
+          <div className="space-y-3">
+            <div className="h-16 animate-pulse rounded-lg border bg-black/5" />
+            <div className="h-16 animate-pulse rounded-lg border bg-black/5" />
+            <div className="h-16 animate-pulse rounded-lg border bg-black/5" />
+          </div>
+        ) : null}
+
+        {!isLoading && orders.length === 0 ? (
+          <DataTableShell
+            title="Order History"
+            description="ประวัติการขายย้อนหลังตามช่วงวันที่ที่เลือก"
           >
-            <div>
-              <label className="text-sm font-medium text-black/70">
-                Start Date
-              </label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="mt-1 w-full rounded-md border border-black/10 px-3 py-2"
-              />
+            <div className="rounded-lg border border-dashed px-4 py-8 text-center text-sm text-black/60">
+              ไม่พบประวัติการขายตามเงื่อนไขที่ค้นหา
             </div>
+          </DataTableShell>
+        ) : null}
 
-            <div>
-              <label className="text-sm font-medium text-black/70">
-                End Date
-              </label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="mt-1 w-full rounded-md border border-black/10 px-3 py-2"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="h-fit self-end rounded-md bg-black px-4 py-2 text-white"
-            >
-              Filter
-            </button>
-
-            <button
-              type="button"
-              onClick={handleResetFilter}
-              className="h-fit self-end rounded-md border px-4 py-2"
-            >
-              Reset
-            </button>
-          </form>
-
-          {isLoading ? (
-            <div className="space-y-3">
-              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
-              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
-              <div className="h-16 animate-pulse rounded-md border bg-black/5" />
-            </div>
-          ) : null}
-
-          {!isLoading && orders.length === 0 ? (
-            <DataTableShell
-              title="Order History"
-              description="ประวัติการขายย้อนหลังตามช่วงวันที่ที่เลือก"
-            >
-              <div className="rounded-md border border-dashed px-4 py-8 text-center text-sm text-black/60">
-                ไม่พบประวัติการขายตามเงื่อนไขที่ค้นหา
-              </div>
-            </DataTableShell>
-          ) : null}
-
-          {orders.length > 0 ? (
-            <DataTableShell
-              title="Order History"
-              description="ดูรายการบิลย้อนหลังและกดดูใบเสร็จทีละบิลได้"
-            >
-              <>
-                <div className="grid gap-3 xl:hidden">
-                  {orders.map((order) => (
-                    <article
-                      key={order.order_id}
-                      className="rounded-md border border-black/10 p-4"
-                    >
+        {orders.length > 0 ? (
+          <DataTableShell
+            title="Order History"
+            description="ดูรายการบิลย้อนหลังและกดดูใบเสร็จทีละบิลได้"
+          >
+            <>
+              <div className="grid gap-3 xl:hidden">
+                {orders.map((order) => (
+                  <Card
+                    key={order.order_id}
+                    className="rounded-lg border border-black/8 py-0 shadow-[0_12px_30px_rgba(15,23,42,0.05)]"
+                  >
+                    <CardContent className="px-4 py-4">
                       <p className="break-words text-sm font-medium text-black/80">
                         {order.order_id}
                       </p>
@@ -220,88 +256,90 @@ export const OrderHistoryPage = () => {
                         <p>Total: {order.grand_total.toFixed(2)}</p>
                         <p>Date: {new Date(order.created_at).toLocaleDateString()}</p>
                       </div>
-                      <button
+                      <Button
                         type="button"
+                        variant="outline"
                         onClick={() => handleViewReceipt(order.order_id)}
                         disabled={isReceiptLoading}
-                        className="mt-3 rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
+                        className="mt-3"
                       >
+                        <ReceiptText />
                         View Receipt
-                      </button>
-                    </article>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <Table className="hidden w-full table-fixed xl:table">
+                <TableHeader className="bg-black/5 text-left">
+                  <TableRow className="hover:bg-black/5">
+                    <TableHead className="w-[190px] px-4 py-3 font-medium text-black/65">
+                      Order ID
+                    </TableHead>
+                    <TableHead className="w-28 px-4 py-3 font-medium text-black/65">
+                      Seller
+                    </TableHead>
+                    <TableHead className="w-24 px-4 py-3 font-medium text-black/65">
+                      Items
+                    </TableHead>
+                    <TableHead className="w-28 px-4 py-3 font-medium text-black/65">
+                      Discount
+                    </TableHead>
+                    <TableHead className="w-24 px-4 py-3 font-medium text-black/65">
+                      VAT
+                    </TableHead>
+                    <TableHead className="w-32 px-4 py-3 font-medium text-black/65">
+                      Grand Total
+                    </TableHead>
+                    <TableHead className="w-36 px-4 py-3 font-medium text-black/65">
+                      Created At
+                    </TableHead>
+                    <TableHead className="w-40 px-4 py-3 font-medium text-black/65">
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {orders.map((order) => (
+                    <TableRow key={order.order_id}>
+                      <TableCell className="break-words px-4 py-3 font-medium">
+                        {order.order_id}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">{order.seller_name}</TableCell>
+                      <TableCell className="px-4 py-3">{order.item_count}</TableCell>
+                      <TableCell className="px-4 py-3">
+                        {order.total_discount.toFixed(2)}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {order.total_vat.toFixed(2)}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {order.grand_total.toFixed(2)}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {new Date(order.created_at).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleViewReceipt(order.order_id)}
+                          disabled={isReceiptLoading}
+                        >
+                          <ReceiptText />
+                          View Receipt
+                        </Button>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </div>
-
-                <table className="hidden w-full table-fixed border-collapse text-sm xl:table">
-                  <thead className="bg-black/5 text-left">
-                    <tr>
-                      <th className="w-[190px] px-4 py-3 font-medium text-black/65">
-                        Order ID
-                      </th>
-                      <th className="w-28 px-4 py-3 font-medium text-black/65">
-                        Seller
-                      </th>
-                      <th className="w-24 px-4 py-3 font-medium text-black/65">
-                        Items
-                      </th>
-                      <th className="w-28 px-4 py-3 font-medium text-black/65">
-                        Discount
-                      </th>
-                      <th className="w-24 px-4 py-3 font-medium text-black/65">
-                        VAT
-                      </th>
-                      <th className="w-32 px-4 py-3 font-medium text-black/65">
-                        Grand Total
-                      </th>
-                      <th className="w-36 px-4 py-3 font-medium text-black/65">
-                        Created At
-                      </th>
-                      <th className="w-40 px-4 py-3 font-medium text-black/65">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr
-                        key={order.order_id}
-                        className="border-t last:border-b-0"
-                      >
-                        <td className="break-words px-4 py-3 font-medium">
-                          {order.order_id}
-                        </td>
-                        <td className="px-4 py-3">{order.seller_name}</td>
-                        <td className="px-4 py-3">{order.item_count}</td>
-                        <td className="px-4 py-3">
-                          {order.total_discount.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3">
-                          {order.total_vat.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3">
-                          {order.grand_total.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3">
-                          {new Date(order.created_at).toLocaleDateString()}
-                        </td>
-                        <td className="px-4 py-3">
-                          <button
-                            type="button"
-                            onClick={() => handleViewReceipt(order.order_id)}
-                            disabled={isReceiptLoading}
-                            className="rounded-md border border-black/15 px-3 py-1 text-sm hover:bg-black/5 disabled:opacity-50"
-                          >
-                            View Receipt
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </>
-            </DataTableShell>
-          ) : null}
+                </TableBody>
+              </Table>
+            </>
+          </DataTableShell>
+        ) : null}
       </section>
 
       <ReceiptModal
