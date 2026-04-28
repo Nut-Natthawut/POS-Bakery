@@ -46,13 +46,13 @@ Frontend (Vercel)
 </p>
 
 <p align="center">
-  <strong>Category Management</strong><br>
-  <img src="docs/screenshots/category.png" alt="Category Management" width="900" />
+  <strong>Product Management</strong><br>
+  <img src="docs/screenshots/product.png" alt="Product Management" width="900" />
 </p>
 
 <p align="center">
   <strong>Order History</strong><br>
-  <img src="docs/screenshots/orderHistory.png" alt="Order History" width="900" />
+  <img src="docs/screenshots/Order History.png" alt="Order History" width="900" />
 </p>
 
 ## Main Features
@@ -113,6 +113,6 @@ For a more security-sensitive production system, httpOnly cookies would be a str
 - Add your screenshots to `docs/screenshots/`
 - Recommended files:
   - `dashBoard.png`
-  - `category.png`
-  - `orderHistory.png`
+  - `product.png`
+  - `Order History.png`
 - Recommended image size: same browser width and same viewport height for consistency
