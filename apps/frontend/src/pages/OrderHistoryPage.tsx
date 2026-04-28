@@ -240,7 +240,7 @@ export const OrderHistoryPage = () => {
             description="ดูรายการบิลย้อนหลังและกดดูใบเสร็จทีละบิลได้"
           >
             <>
-              <div className="grid gap-3 xl:hidden">
+              <div className="grid gap-3 2xl:hidden">
                 {orders.map((order) => (
                   <Card
                     key={order.order_id}
@@ -271,31 +271,31 @@ export const OrderHistoryPage = () => {
                 ))}
               </div>
 
-              <Table className="hidden w-full table-fixed xl:table">
-                <TableHeader className="bg-black/5 text-left">
-                  <TableRow className="hover:bg-black/5">
-                    <TableHead className="w-[190px] px-4 py-3 font-medium text-black/65">
+              <Table className="hidden w-full min-w-[1040px] 2xl:table">
+                <TableHeader className="bg-muted text-left">
+                  <TableRow className="hover:bg-muted">
+                    <TableHead className="w-[260px] px-4 py-3 font-medium text-muted-foreground">
                       Order ID
                     </TableHead>
-                    <TableHead className="w-28 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-32 px-4 py-3 font-medium text-muted-foreground">
                       Seller
                     </TableHead>
-                    <TableHead className="w-24 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-20 px-4 py-3 font-medium text-muted-foreground">
                       Items
                     </TableHead>
-                    <TableHead className="w-28 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-28 px-4 py-3 font-medium text-muted-foreground">
                       Discount
                     </TableHead>
-                    <TableHead className="w-24 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-24 px-4 py-3 font-medium text-muted-foreground">
                       VAT
                     </TableHead>
-                    <TableHead className="w-32 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-32 px-4 py-3 font-medium text-muted-foreground">
                       Grand Total
                     </TableHead>
-                    <TableHead className="w-36 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-32 px-4 py-3 font-medium text-muted-foreground">
                       Created At
                     </TableHead>
-                    <TableHead className="w-40 px-4 py-3 font-medium text-black/65">
+                    <TableHead className="w-40 px-4 py-3 font-medium text-muted-foreground">
                       Actions
                     </TableHead>
                   </TableRow>
@@ -304,10 +304,12 @@ export const OrderHistoryPage = () => {
                 <TableBody>
                   {orders.map((order) => (
                     <TableRow key={order.order_id}>
-                      <TableCell className="break-words px-4 py-3 font-medium">
+                      <TableCell className="max-w-[260px] whitespace-normal break-all px-4 py-3 font-medium leading-5">
                         {order.order_id}
                       </TableCell>
-                      <TableCell className="px-4 py-3">{order.seller_name}</TableCell>
+                      <TableCell className="max-w-[160px] truncate px-4 py-3">
+                        {order.seller_name}
+                      </TableCell>
                       <TableCell className="px-4 py-3">{order.item_count}</TableCell>
                       <TableCell className="px-4 py-3">
                         {order.total_discount.toFixed(2)}
