@@ -49,17 +49,17 @@ Admin / Staff
 
 <p align="center">
   <strong>Dashboard</strong><br>
-  <img src="docs/screenshots/dashBoard.png" alt="Dashboard" width="900" />
+  <img src="docs/screenshots/dashBoard.png" alt="Dashboard" width="650" />
 </p>
 
 <p align="center">
   <strong>Product Management</strong><br>
-  <img src="docs/screenshots/product.png" alt="Product Management" width="900" />
+  <img src="docs/screenshots/product.png" alt="Product Management" width="650" />
 </p>
 
 <p align="center">
   <strong>Order History</strong><br>
-  <img src="docs/screenshots/Order History.png" alt="Order History" width="900" />
+  <img src="docs/screenshots/Order History.png" alt="Order History" width="650" />
 </p>
 
 ## Project Structure
