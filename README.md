@@ -9,17 +9,19 @@
   <img src="https://img.shields.io/badge/Deploy-Vercel%20%2B%20Render-111111?logo=vercel&logoColor=white" alt="Deploy" />
 </p>
 
-A full-stack Point of Sale system for a bakery shop, built to simulate a real business workflow from product management to checkout and receipt generation.
+A full-stack bakery Point of Sale system built around real retail workflows, from product and category management to checkout, inventory updates, and receipt generation.
 
 ## Overview
+This project simulates the day-to-day workflow of a small bakery POS system. It covers product setup, order processing, stock updates, role-based access, and sales tracking in a full-stack architecture.
 
-This project covers the core flow of a small retail POS system:
+## Main Features
 
-- manage products and categories
-- create orders and deduct stock
-- generate receipts with PromptPay QR
-- view order history and dashboard analytics
-- control access by role (`ADMIN` / `STAFF`)
+- Product and category management
+- Sales cart and checkout flow
+- Automatic inventory updates after checkout
+- JWT authentication with role-based access (`ADMIN` / `STAFF`)
+- Order history and dashboard analytics
+- PromptPay QR receipt generation
 
 ## Tech Stack
 
@@ -33,9 +35,14 @@ This project covers the core flow of a small retail POS system:
 ## Architecture
 
 ```txt
-Frontend (Vercel)
--> Backend API (Render)
+Frontend (React + Vite)
+-> Express API
 -> Supabase Postgres / Storage
+
+Admin / Staff
+-> Authentication + Role-Based Access
+-> Product, Order, and Inventory Workflows
+-> Dashboard and Receipt Features
 ```
 
 ## Screenshots
@@ -54,16 +61,6 @@ Frontend (Vercel)
   <strong>Order History</strong><br>
   <img src="docs/screenshots/Order History.png" alt="Order History" width="900" />
 </p>
-
-## Main Features
-
-- JWT authentication with role-based access
-- Product and category management
-- Sales cart and checkout flow
-- Stock deduction after successful order
-- Order history and receipt modal
-- PromptPay QR generation
-- Dashboard for revenue, VAT, and best sellers
 
 ## Project Structure
 
@@ -103,16 +100,6 @@ docs/
 - Backend: Render
 - Database: Supabase
 
-## Notes
+## Technical Note
+This project stores JWT tokens in localStorage for implementation simplicity. In a more security-sensitive production environment, httpOnly cookies would be a stronger choice.
 
-This project uses JWT stored in localStorage for simplicity.
-For a more security-sensitive production system, httpOnly cookies would be a stronger approach.
-
-## Screenshot Notes
-
-- Add your screenshots to `docs/screenshots/`
-- Recommended files:
-  - `dashBoard.png`
-  - `product.png`
-  - `Order History.png`
-- Recommended image size: same browser width and same viewport height for consistency
