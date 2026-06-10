@@ -55,6 +55,15 @@ Frontend (Vercel)
   <img src="docs/screenshots/Order History.png" alt="Order History" width="900" />
 </p>
 
+## Demo Accounts
+
+These are the accounts used during project testing:
+
+| Username | Password | Role | Access |
+|---|---|---|---|
+| `owner` | `1234` | `ADMIN` | dashboard, products, categories, sales, order history |
+| `staff01` | `1234` | `STAFF` | sales, own order history |
+
 ## Main Features
 
 - JWT authentication with role-based access
