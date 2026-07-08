@@ -49,17 +49,17 @@ Admin / Staff
 
 <p align="center">
   <strong>Dashboard</strong><br>
-  <img src="docs/screenshots/dashBoard.png" alt="Dashboard" width="650" />
+  <img src="https://cdn.jsdelivr.net/gh/Nut-Natthawut/POS-Bakery@main/docs/screenshots/dashBoard.png" alt="Dashboard" width="650" />
 </p>
 
 <p align="center">
   <strong>Product Management</strong><br>
-  <img src="docs/screenshots/product.png" alt="Product Management" width="650" />
+  <img src="https://cdn.jsdelivr.net/gh/Nut-Natthawut/POS-Bakery@main/docs/screenshots/product.png" alt="Product Management" width="650" />
 </p>
 
 <p align="center">
   <strong>Order History</strong><br>
-  <img src="docs/screenshots/Order History.png" alt="Order History" width="650" />
+  <img src="https://cdn.jsdelivr.net/gh/Nut-Natthawut/POS-Bakery@main/docs/screenshots/Order%20History.png" alt="Order History" width="650" />
 </p>
 
 ## Demo Accounts
